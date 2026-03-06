@@ -1,73 +1,52 @@
-# React + TypeScript + Vite
+# 🤖 Analyst Copilot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Analyst Copilot** is a high-performance, AI-powered cheat sheet application designed for data scientists and analysts. It provides instant access to syntax and examples for **PostgreSQL, Python, R, Excel, Power BI, Tableau, Bash, and Git**.
 
-Currently, two official plugins are available:
+## 🚀 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+-   **🔍 AI-Powered Search**: Instantly generate cheat sheet cards for any library or syntax using Gemini 1.5 Flash or Pro.
+-   **🔄 Analyst Translator**: Convert code logic between languages (e.g., SQL to Pandas, Python to R) with "Ready-to-Run" examples.
+-   **📋 Ready-to-Run Examples**: AI-generated examples include data setup (e.g., dummy DataFrames or built-in R datasets) so you can copy and paste directly into your IDE.
+-   **⭐ Favorites & Persistence**: Pin your most-used formulas to the top. All AI-generated and favorited cards are saved to your browser's LocalStorage.
+-   **🌓 Dark Mode**: Seamlessly toggle between light and dark themes for comfortable late-night analysis.
+-   **📱 Modern Wide UI**: A slim, efficient sidebar and wide card layout optimized for readability.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+-   **Frontend**: React 19, TypeScript, Vite
+-   **AI**: Google Gemini 1.5 Flash & Pro (via Gemini API)
+-   **Styling**: Modern Vanilla CSS
+-   **Storage**: Browser LocalStorage
 
-## Expanding the ESLint configuration
+## 🏁 Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1.  **Clone the repository**:
+    ```bash
+    git clone <your-repository-url>
+    cd cheat-sheet-app
+    ```
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+3.  **Configure API Key**:
+    Create a `.env` file in the root directory and add your Gemini API Key:
+    ```env
+    VITE_GEMINI_API_KEY=your_gemini_api_key_here
+    ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+4.  **Run the application**:
+    ```bash
+    npm run dev
+    ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🪄 Usage Tips
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+-   **Search Mode**: Use keywords like "ggplot2 bar chart", "pandas merge", or "sql window functions".
+-   **Translator Mode**: Paste a complex SQL query and select "Python" as the active tool to see the equivalent Pandas code.
+-   **Refine**: Use the Magic Wand (🪄) icon on any card to ask the AI to "make it more advanced" or "add more comments".
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+Built with ❤️ for Data Analysts.
