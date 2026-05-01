@@ -237,6 +237,7 @@ function App() {
                 setSearchQuery('');
                 setSubmittedQuery('');
                 setError(null);
+                setIsSidebarOpen(false);
               }}
               style={selectedTool === tool.id ? { 
                 borderLeft: `4px solid ${tool.color}`,
