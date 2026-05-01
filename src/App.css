@@ -661,6 +661,12 @@ body {
     grid-template-columns: 1fr 1fr;
   }
 
+  .primary-button, .secondary-button {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+
   .formula-card {
     padding: 15px 20px;
   }
