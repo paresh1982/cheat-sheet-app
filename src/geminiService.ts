@@ -28,7 +28,7 @@ function extractJSON(text: string) {
   }
 }
 
-export async function generateCheatSheet(tool: string, query: string, model: string = "gemini-3.1-flash-lite-preview") {
+export async function generateCheatSheet(tool: string, query: string, model: string = "gemini-2.5-flash") {
   if (!API_KEY || API_KEY === 'your_api_key_here' || API_KEY === '') {
     throw new Error("API Key is missing. Please add your VITE_GEMINI_API_KEY to the .env file.");
   }
@@ -105,7 +105,7 @@ export async function generateCheatSheet(tool: string, query: string, model: str
   }
 }
 
-export async function refineCheatSheet(currentFormula: any, instruction: string, model: string = "gemini-3.1-flash-lite-preview") {
+export async function refineCheatSheet(currentFormula: any, instruction: string, model: string = "gemini-2.5-flash") {
   if (!API_KEY) throw new Error("API Key is missing.");
 
   const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
@@ -145,7 +145,7 @@ export async function refineCheatSheet(currentFormula: any, instruction: string,
   }
 }
 
-export async function translateCode(sourceTool: string, targetTool: string, code: string, model: string = "gemini-3.1-flash-lite-preview") {
+export async function translateCode(sourceTool: string, targetTool: string, code: string, model: string = "gemini-2.5-flash") {
   if (!API_KEY) throw new Error("API Key is missing.");
 
   const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;

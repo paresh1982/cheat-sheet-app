@@ -8,13 +8,14 @@ function App() {
   const [appMode, setAppMode] = useState<'search' | 'translate'>('search')
   const [selectedTool, setSelectedTool] = useState<string>(tools[0].id)
   const [sourceTool, setSourceTool] = useState<string>(tools[1].id)
-  const [selectedModel, setSelectedModel] = useState<string>('gemini-3.1-flash-lite-preview')
+  const [selectedModel, setSelectedModel] = useState<string>('gemini-2.5-flash')
   const [searchQuery, setSearchQuery] = useState('')
   const [sourceCode, setSourceCode] = useState('')
   const [submittedQuery, setSubmittedQuery] = useState('')
   const [dynamicFormulas, setDynamicFormulas] = useState<Formula[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [latestAiResultId, setLatestAiResultId] = useState<string | null>(null);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     return localStorage.getItem('theme') === 'dark';
   })
@@ -52,7 +53,7 @@ function App() {
 
   const filteredFormulas = useMemo(() => {
     const query = submittedQuery.trim().toLowerCase();
-    
+
     // In rest state (no query), show only favorites for the active tool
     if (!query) {
       return allFormulas.filter(f => f.toolId === selectedTool && f.isFavorite);
@@ -60,11 +61,11 @@ function App() {
 
     const queryWords = query.split(/\s+/).filter(w => w.length > 1);
 
-    return allFormulas.filter(f => {
+    const results = allFormulas.filter(f => {
       if (f.toolId !== selectedTool) return false;
-      
+
       const content = `${f.name} ${f.concept} ${f.category} ${f.syntax} ${f.explanation}`.toLowerCase();
-      
+
       // If query is one word, use simple includes
       let matches = false;
       if (queryWords.length <= 1) {
@@ -72,10 +73,21 @@ function App() {
       } else {
         matches = queryWords.every(word => content.includes(word)) || content.includes(query);
       }
-      
+
       return matches;
-    }).sort((a, b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0));
-  }, [selectedTool, submittedQuery, allFormulas])
+    });
+
+    // Handle typo correction: If a new AI result was just added and doesn't appear
+    // in the filtered list, it's likely due to a typo. Add it to the results.
+    if (latestAiResultId && !results.some(f => f.id === latestAiResultId)) {
+      const newCard = allFormulas.find(f => f.id === latestAiResultId);
+      if (newCard) {
+        results.unshift(newCard); // Prepend the AI result
+      }
+    }
+
+    return results.sort((a, b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0));
+  }, [selectedTool, submittedQuery, allFormulas, latestAiResultId])
 
   const toggleFavorite = (id: string) => {
     if (dynamicFormulas.some(f => f.id === id)) {
@@ -99,13 +111,14 @@ function App() {
     const query = searchQuery.trim();
     if (!query) return;
 
+    setLatestAiResultId(null);
     setSubmittedQuery(query);
     setError(null);
 
     // Check if we have local results first
     const findLocalMatch = (q: string) => allFormulas.some(f => {
       const matchesTool = f.toolId === selectedTool
-      const matchesSearch = 
+      const matchesSearch =
         f.name.toLowerCase().includes(q.toLowerCase()) ||
         f.concept.toLowerCase().includes(q.toLowerCase()) ||
         f.category.toLowerCase().includes(q.toLowerCase())
@@ -118,10 +131,11 @@ function App() {
       setLoading(true);
       try {
         const newFormula = await generateCheatSheet(activeTool.name, query, selectedModel);
-        
+        setLatestAiResultId(newFormula.id);
+
         // Final duplicate check before adding (by name)
-        const isDuplicate = allFormulas.some(f => 
-          f.toolId === newFormula.toolId && 
+        const isDuplicate = allFormulas.some(f =>
+          f.toolId === newFormula.toolId &&
           f.name.toLowerCase() === newFormula.name.toLowerCase()
         );
 
@@ -256,15 +270,15 @@ function App() {
               <div className="toggle-group">
                 <button 
                   type="button" 
-                  className={`toggle-btn ${selectedModel === 'gemini-3.1-flash-lite-preview' ? 'active' : ''}`}
-                  onClick={() => setSelectedModel('gemini-3.1-flash-lite-preview')}
+                  className={`toggle-btn ${selectedModel === 'gemini-2.5-flash' ? 'active' : ''}`}
+                  onClick={() => setSelectedModel('gemini-2.5-flash')}
                 >
                   Flash
                 </button>
                 <button 
                   type="button" 
-                  className={`toggle-btn ${selectedModel === 'gemini-3.1-pro-preview' ? 'active' : ''}`}
-                  onClick={() => setSelectedModel('gemini-3.1-pro-preview')}
+                  className={`toggle-btn ${selectedModel === 'gemini-2.5-pro' ? 'active' : ''}`}
+                  onClick={() => setSelectedModel('gemini-2.5-pro')}
                 >
                   Pro
                 </button>
@@ -490,6 +504,12 @@ function FormulaCard({
       <div className="syntax-block">
         <code>{formula.syntax}</code>
       </div>
+
+      {formula.explanation && (
+        <div className="explanation-box">
+          {formula.explanation}
+        </div>
+      )}
 
       <div className="examples-container">
         {formula.examples.map((ex, idx) => (

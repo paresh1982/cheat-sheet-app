@@ -4,7 +4,7 @@ export interface ToolData {
   color: string;
 }
 
-export type Category = 
+export type Category =
   | 'Data I/O & Setup'
   | 'Filtering & Sorting'
   | 'Aggregation & Grouping'
@@ -237,6 +237,86 @@ export const formulas: Formula[] = [
     examples: [
       { title: 'Melt Data', code: 'wide_df %>% pivot_longer(cols = starts_with("Year_"), names_to="Year", values_to="GDP")', description: 'Converts year columns into a single Year column and a single GDP column.' },
       { title: 'Spread Data', code: 'long_df %>% pivot_wider(names_from=Metric, values_from=Value)', description: 'Turns a metrics column into individual columns (like a Pivot Table).' }
+    ]
+  },
+
+  // ================= POWER BI (DAX) =================
+  {
+    id: 'dax_calculate', toolId: 'powerbi', category: 'Filtering & Sorting', name: 'CALCULATE',
+    concept: 'The most important function in DAX. Evaluates an expression in a modified filter context.',
+    syntax: 'CALCULATE(<expression>, <filter1>, <filter2>...)',
+    explanation: 'Allows you to change the context of a calculation. Filters override existing context.',
+    examples: [
+      { title: 'Sum of North Region', code: 'Sales North = CALCULATE(SUM(Sales[Revenue]), Sales[Region] = "North")', description: 'Calculates total revenue only for the North region, ignoring all other filters on Region.' },
+      { title: 'Sales for Large Orders', code: 'Revenue Large Orders = CALCULATE(SUM(Sales[Revenue]), Sales[Order Size] > 100)', description: 'Sums revenue for orders with more than 100 units.' }
+    ]
+  },
+  {
+    id: 'dax_filter', toolId: 'powerbi', category: 'Filtering & Sorting', name: 'FILTER',
+    concept: 'Returns a table that has been filtered.',
+    syntax: 'FILTER(<table>, <filter_expression>)',
+    explanation: 'Often used inside CALCULATE to apply complex filtering logic.',
+    examples: [
+      { title: 'Filtered Table', code: 'HighProfitProducts = FILTER(Products, Products[Margin] > 0.4)', description: 'Returns a table containing only products with over 40% margin.' },
+      { title: 'Use with CALCULATE', code: 'HighMarginSales = CALCULATE(SUM(Sales[Revenue]), FILTER(Products, Products[Category] = "Electronics"))', description: 'Calculates sales for a dynamically filtered table of products.' }
+    ]
+  },
+  {
+    id: 'dax_sumx', toolId: 'powerbi', category: 'Aggregation & Grouping', name: 'SUMX',
+    concept: 'An iterator function that sums an expression evaluated for each row in a table.',
+    syntax: 'SUMX(<table>, <expression>)',
+    explanation: 'Essential for row-level calculations before aggregation, like Price * Quantity.',
+    examples: [
+      { title: 'Total Revenue', code: 'Total Revenue = SUMX(Sales, Sales[Price] * Sales[Quantity])', description: 'Calculates the total revenue by multiplying price and quantity for each row, then summing the result.' },
+      { title: 'Conditional Sum', code: 'DiscountedRevenue = SUMX(FILTER(Sales, Sales[Discount] > 0), Sales[Price] * Sales[Quantity])', description: 'Calculates total revenue only for sales that had a discount.' }
+    ]
+  },
+  {
+    id: 'dax_if', toolId: 'powerbi', category: 'Data Cleaning & Logic', name: 'IF',
+    concept: 'A standard logical function to return one value if a condition is true, and another if false.',
+    syntax: 'IF(<logical_test>, <value_if_true>, <value_if_false>)',
+    explanation: 'Used for creating conditional columns or measures.',
+    examples: [
+      { title: 'Calculated Column', code: 'OrderSizeCategory = IF(Orders[Quantity] > 10, "Large", "Small")', description: 'Creates a new column that categorizes orders based on their quantity.' },
+      { title: 'Conditional Measure', code: 'BonusEligibleSales = IF(SUM(Sales[Revenue]) > 100000, "Yes", "No")', description: 'Creates a measure that indicates if total sales have met a bonus target.' }
+    ]
+  },
+
+  // ================= GIT =================
+  {
+    id: 'git_workflow',
+    toolId: 'git',
+    category: 'Data I/O & Setup',
+    name: 'Basic Git Workflow',
+    concept: 'The fundamental five-step process for creating a new project, making changes, and publishing them to a remote repository like GitHub.',
+    syntax: '1. git init\n2. git add <file>\n3. git commit -m "message"\n4. git remote add origin <url>\n5. git push origin main',
+    explanation: 'This sequence covers the full basic workflow:\n\n1.  **Initialize**: A local repository is created.\n2.  **Modify & Commit**: A file is created, staged, and then committed.\n3.  **Push to Remote**: The committed changes are pushed to a remote repository.\n\n**Note:** Pushing to a remote requires a valid remote URL and authentication.',
+    examples: [
+      {
+        title: '1. Initialize a New Repository',
+        code: 'mkdir my_project\ncd my_project\ngit init',
+        description: 'Creates a new directory and initializes it as a local Git repository.'
+      },
+      {
+        title: '2. Create and Add a File',
+        code: 'echo "Hello, Git!" > README.md\ngit add README.md',
+        description: 'Creates a new file and stages it, preparing it for the next commit.'
+      },
+      {
+        title: '3. Commit the Changes',
+        code: 'git commit -m "Initial commit: Add README"',
+        description: 'Saves the staged changes to the repository\'s local history with a descriptive message.'
+      },
+      {
+        title: '4. Add a Remote Repository',
+        code: 'git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git',
+        description: 'Connects your local repository to a remote server. Replace placeholders with your actual details.'
+      },
+      {
+        title: '5. Push Changes to the Remote',
+        code: 'git push -u origin main',
+        description: 'Uploads your committed changes to the "main" branch on the remote server.'
+      }
     ]
   }
 ];
