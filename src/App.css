@@ -561,3 +561,61 @@ body {
     font-size: 1.5rem;
   }
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main-content {
+    padding: 20px 15px;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .header-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .model-selector {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .theme-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+
+  .search-row, .translator-inputs {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .search-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .formula-card {
+    padding: 15px 20px;
+  }
+
+  .formula-name {
+    font-size: 1.15rem;
+  }
+
+  .examples-container {
+    grid-template-columns: 1fr;
+  }
+
+  .concept-box, .syntax-block, .example-code {
+    font-size: 0.9rem;
+  }
+}
