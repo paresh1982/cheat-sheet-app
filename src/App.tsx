@@ -19,6 +19,7 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     return localStorage.getItem('theme') === 'dark';
   })
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Theme effect
   useEffect(() => {
@@ -214,8 +215,9 @@ function App() {
 
   return (
     <div className="app-container">
+      {isSidebarOpen && <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}></div>}
       {/* Sidebar */}
-      <aside className="sidebar">
+      <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-brand">
           <div className="logo">
             Analyst Copilot
@@ -252,6 +254,9 @@ function App() {
       <main className="main-content">
         <header className="header">
           <div className="header-top">
+            <button className="mobile-nav-toggle" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+              ☰
+            </button>
             <div className="model-selector">
               <div className="mode-tabs">
                 <button 

@@ -39,6 +39,7 @@ body {
 .app-container {
   display: flex;
   height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Sidebar */
@@ -50,6 +51,18 @@ body {
   flex-direction: column;
   padding: 15px;
   flex-shrink: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  display: none; /* Hidden by default */
 }
 
 .sidebar-brand {
@@ -119,6 +132,10 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.mobile-nav-toggle {
+  display: none;
 }
 
 .theme-toggle {
@@ -564,7 +581,41 @@ body {
 
 @media (max-width: 768px) {
   .sidebar {
-    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    z-index: 100;
+    width: 200px; /* Wider for mobile nav */
+    padding: 20px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar.open ~ .main-content {
+    /* Optional: push content over, or just overlay */
+  }
+
+  .sidebar-overlay.open {
+    display: block;
+  }
+
+  .logo, .active-tool-display, .tool-item {
+    font-size: 1rem; /* Make text visible again */
+  }
+
+  .mobile-nav-toggle {
+    display: block;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    font-size: 1.5rem;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
   }
 
   .main-content {
@@ -576,21 +627,16 @@ body {
   }
 
   .header-top {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 15px;
+    flex-direction: row; /* Keep it row */
+    justify-content: space-between;
   }
 
   .model-selector {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
+    display: none; /* Hide for simplicity, can be in sidebar */
   }
 
   .theme-toggle {
-    position: absolute;
-    top: 15px;
-    right: 15px;
+    position: static;
   }
 
   .search-row, .translator-inputs {
