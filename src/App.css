@@ -134,9 +134,15 @@ body {
   margin-bottom: 20px;
 }
 
+
 .mobile-nav-toggle {
   display: none;
 }
+
+.mobile-active-tool {
+  display: none;
+}
+
 
 .theme-toggle {
   background: none;
@@ -571,9 +577,6 @@ body {
   .sidebar-brand, .tool-item {
     text-align: center;
   }
-  .logo, .active-tool-display, .tool-item {
-    font-size: 0;
-  }
   .logo span {
     font-size: 1.5rem;
   }
@@ -603,10 +606,6 @@ body {
     display: block;
   }
 
-  .logo, .active-tool-display, .tool-item {
-    font-size: 1rem; /* Make text visible again */
-  }
-
   .mobile-nav-toggle {
     display: block;
     background: none;
@@ -616,6 +615,19 @@ body {
     padding: 5px 10px;
     border-radius: 6px;
     cursor: pointer;
+  }
+
+  .mobile-header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .mobile-active-tool {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
   }
 
   .main-content {

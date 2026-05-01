@@ -255,9 +255,14 @@ function App() {
       <main className="main-content">
         <header className="header">
           <div className="header-top">
-            <button className="mobile-nav-toggle" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-              ☰
-            </button>
+            <div className="mobile-header-left">
+              <button className="mobile-nav-toggle" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                ☰
+              </button>
+              <div className="mobile-active-tool" style={{ color: activeTool.color }}>
+                {activeTool.name}
+              </div>
+            </div>
             <div className="model-selector">
               <div className="mode-tabs">
                 <button 
