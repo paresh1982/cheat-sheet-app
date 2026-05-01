@@ -460,7 +460,7 @@ body {
   white-space: pre-wrap;
   position: relative;
 }
-...
+}
 .examples-container {
   display: grid;
   grid-template-columns: 1fr 1fr; /* Two columns for examples */
