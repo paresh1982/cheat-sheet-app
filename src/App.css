@@ -44,7 +44,7 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 120px; /* Reduced width */
+  width: 150px; /* Reduced width */
   background-color: var(--sidebar-bg);
   border-right: 1px solid var(--border);
   display: flex;
