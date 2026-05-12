@@ -44,7 +44,7 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 150px; /* Reduced width */
+  width: 120px; /* Reduced width */
   background-color: var(--sidebar-bg);
   border-right: 1px solid var(--border);
   display: flex;
@@ -350,7 +350,7 @@ body {
 /* Results Grid */
 .results-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(620px, 1fr));
   gap: 20px;
 }
 
